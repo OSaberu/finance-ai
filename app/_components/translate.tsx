@@ -91,7 +91,7 @@ export const translatePaymentMethod = (paymentMethod: string) => {
     return "Pix";
   }
 
-  return "Outro";
+  return "Selecione";
 };
 
 export const translateAmount = (amount: number) => {
