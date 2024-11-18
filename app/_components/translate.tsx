@@ -15,7 +15,22 @@ const months = [
   "Dezembro",
 ];
 
-export const translateType = (type: string) => {
+export const translateType = (type: string, stringOnly: boolean) => {
+  if (stringOnly === true) {
+    if (type === "DEPOSIT") {
+      return "Ganho";
+    }
+    if (type === "EXPENSE") {
+      return "Gasto";
+    }
+    if (type === "INVESTMENT") {
+      return "Investimento";
+    }
+    if (type === "OTHER") {
+      return "Selecione";
+    }
+  }
+
   if (type === "DEPOSIT") {
     return (
       <div className="flex h-auto w-[69px] flex-row items-center justify-center gap-[7px] rounded-xl bg-green-600 bg-opacity-[0.08] px-2 py-[2px] text-green-600">
@@ -42,7 +57,7 @@ export const translateType = (type: string) => {
   }
 };
 
-export const translateCategory = (category: string) => {
+export const translateCategory = (category: string, other: string) => {
   if (category === "HOUSING") {
     return "Moradia";
   }
@@ -59,7 +74,7 @@ export const translateCategory = (category: string) => {
     return "Saúde";
   }
   if (category === "UTILITY") {
-    return "Utilidade";
+    return "Utilidades";
   }
   if (category === "SALARY") {
     return "Salário";
@@ -68,7 +83,7 @@ export const translateCategory = (category: string) => {
     return "Educação";
   }
 
-  return "-";
+  return other || "-";
 };
 
 export const translatePaymentMethod = (paymentMethod: string) => {

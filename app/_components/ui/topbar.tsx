@@ -22,20 +22,6 @@ export function Topbar() {
   const { signOut, openUserProfile } = useClerk();
 
   const { user, isLoaded, isSignedIn } = useUser();
-  if (!isSignedIn) {
-    if (pathname !== "/login") {
-      router.push("/login");
-    }
-
-    return;
-  }
-
-  if (pathname === "/login") {
-    router.push("/");
-
-    return;
-  }
-
   if (!isLoaded) {
     return (
       <div className="flex h-auto w-full flex-row items-start justify-start border-b border-white border-opacity-[0.08] px-8 py-4">
@@ -54,6 +40,20 @@ export function Topbar() {
         </div>
       </div>
     );
+  }
+
+  if (!isSignedIn) {
+    if (pathname !== "/login") {
+      router.push("/login");
+    }
+
+    return;
+  }
+
+  if (pathname === "/login") {
+    router.push("/");
+
+    return;
   }
 
   const img = user.imageUrl;
