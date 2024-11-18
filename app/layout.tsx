@@ -22,7 +22,9 @@ export default function RootLayout({
   return (
     <ClerkProvider afterSignOutUrl="/login" appearance={{ baseTheme: dark }}>
       <html lang="en">
-        <body className={`${MulishFont.className} dark antialiased`}>
+        <body
+          className={`${MulishFont.className} dark bg-[#0F0E11] antialiased`}
+        >
           <Topbar />
           {children}
         </body>
