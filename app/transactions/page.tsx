@@ -1,6 +1,6 @@
 import { db } from "../_lib/prisma";
 
-import { AddTransaction } from "../_components/ui/add-transaction";
+import { AddTransaction } from "../_components/add-transaction";
 import { currentUser } from "@clerk/nextjs/server";
 import { DataTable } from "../_components/ui/data-table";
 import { transactionColumns } from "./_columns";

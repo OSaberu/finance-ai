@@ -6,14 +6,14 @@ import Image from "next/image";
 import { NavigationButton } from "./navigationButton";
 import { usePathname, useRouter } from "next/navigation";
 import { LogOutIcon, SettingsIcon, UserCircle } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
+} from "./ui/dropdown-menu";
 
 export function Topbar() {
   const router = useRouter();

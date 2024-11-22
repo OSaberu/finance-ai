@@ -3,7 +3,7 @@ import { Mulish } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { dark } from "@clerk/themes";
-import { Topbar } from "./_components/ui/topbar";
+import { Topbar } from "./_components/topbar";
 
 const MulishFont = Mulish({
   subsets: ["latin-ext"],
