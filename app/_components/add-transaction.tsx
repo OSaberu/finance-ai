@@ -47,14 +47,14 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { cn } from "../_lib/utils";
 import { format } from "./format";
+import { addTransaction } from "../_actions/add-transaction";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, {
     message: "O nome é obrigatório.",
   }),
-  amount: z.string().trim().min(1, {
-    message: "O valor é obrigatório.",
-  }),
+  amount: z.number(),
   type: z.nativeEnum(TransactionType, {
     required_error: "O tipo é obrigatório.",
   }),
@@ -64,7 +64,7 @@ const formSchema = z.object({
   paymentMethod: z.nativeEnum(TransactionPaymentMethod, {
     required_error: "O método de pagamento é obrigatório.",
   }),
-  date: z.date({
+  createdAt: z.date({
     required_error: "A data é obrigatória.",
   }),
 });
@@ -72,26 +72,39 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export function AddTransaction() {
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      amount: "",
+      amount: 0,
       type: undefined,
       category: undefined,
       paymentMethod: undefined,
-      date: undefined,
+      createdAt: undefined,
     },
   });
   const handleCancel = () => {
     form.reset();
   };
-  const onSubmit = (data: FormSchema) => {
-    console.log(data);
+  const onSubmit = async (data: FormSchema) => {
+    try {
+      await addTransaction(data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setDialogIsOpen(false);
+    form.reset();
   };
 
   return (
-    <Dialog>
+    <Dialog
+      open={dialogIsOpen}
+      onOpenChange={(open) => {
+        setDialogIsOpen(open);
+      }}
+    >
       <DialogTrigger asChild>
         <Button className="z-10 h-auto w-auto rounded-[100px] px-4 py-2">
           Adicionar Transação <ArrowDownUp size={4} />
@@ -133,7 +146,12 @@ export function AddTransaction() {
                     <MoneyInput
                       className="bg-transparent hover:bg-accent hover:text-accent-foreground focus:bg-transparent focus:ring-1 focus:ring-green-400 focus:ring-offset-0"
                       placeholder="R$ 0.000,00"
-                      {...field}
+                      value={field.value}
+                      onValueChange={({ floatValue }) =>
+                        field.onChange(floatValue)
+                      }
+                      onBlur={field.onBlur}
+                      disabled={field.disabled}
                     />
                   </FormControl>
                   <FormMessage />
@@ -226,7 +244,7 @@ export function AddTransaction() {
             />
             <FormField
               control={form.control}
-              name="date"
+              name="createdAt"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Data</FormLabel>
